@@ -1,4 +1,4 @@
-# 日本語株主総会 ASR + Shallow Fusion デモ
+# ASR + Shallow Fusion デモ
 
 ## 実行手順
 1. 依存ライブラリのインストール:
