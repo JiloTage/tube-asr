@@ -1,0 +1,22 @@
+asr_model:
+  type: "whisper"
+  pretrained: "openai/whisper-large-v2"
+  use_gpu: true
+  batch_size: 1
+  beam_width: 5
+
+language_model:
+  enable: true
+  type: "kenlm"
+  model_path: "models/lm/japanese_4gram.arpa"
+  lm_weight: 0.5
+
+decoding:
+  chunk_duration: 30.0
+  stride_overlap: 2.0
+  timestamp_resolution: "segment"
+
+output:
+  csv_path: "data/output/transcription.csv"
+  include_speaker: true
+  include_confidence: false
