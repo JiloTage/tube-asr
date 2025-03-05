@@ -1,3 +1,4 @@
+# src/model_loader.py
 import yaml
 import torch
 from transformers import pipeline, WhisperProcessor, WhisperForConditionalGeneration, Wav2Vec2ForCTC, Wav2Vec2Processor
@@ -12,6 +13,7 @@ def load_asr_model(config):
     device = 0 if use_gpu else -1
 
     if model_type == "whisper":
+        # Whisperモデルのロード（pipelineで簡易に）
         model_name = config["asr_model"]["pretrained"]
         asr_pipeline = pipeline("automatic-speech-recognition", model=model_name, device=device)
         return asr_pipeline
@@ -23,3 +25,13 @@ def load_asr_model(config):
         return {"processor": processor, "model": model}
     else:
         raise ValueError(f"Unsupported ASR model type: {model_type}")
+
+def load_language_model(config):
+    lm_config = config.get("language_model", {})
+    if lm_config.get("enable", False) and lm_config.get("type", "").lower() == "kenlm":
+        lm_path = lm_config.get("model_path", None)
+        if lm_path is None:
+            raise ValueError("LM enabled but no model_path provided in config")
+        # ここでは pyctcdecode 用のKenLMモデルのパスを返すだけ
+        return lm_path
+    return None
